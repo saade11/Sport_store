@@ -30,9 +30,10 @@ def register_routes(app, db,bcrypt):
             username = request.form.get('username')
             password = request.form.get('password')
             user = User.query.filter(User.username == username).first()
-            if bcrypt.check_password_hash(user.password, password):
-                login_user(user)
-                return redirect(url_for('index'))
+            if user:
+                if bcrypt.check_password_hash(user.password, password):
+                    login_user(user)
+                    return redirect(url_for('index'))
             
             else:
                 return "Username Or password Incorrect"
